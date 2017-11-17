@@ -1,13 +1,10 @@
 class UserMailer < ApplicationMailer
 
-  def test
-    # @message = params[:message]
-
+  def send_confirmation_mail(user)
+    @user = user
     mail(
-      from: 'hello@kissu.io',
-      to: 'konstantin.bifert@gmail.com',
-      reply_to: 'konstantin.bifert@gmail.com',
-      subject: 'Reporting'
+      to: user.email,
+      subject: 'Your confirmation mail'
     )
   end
 

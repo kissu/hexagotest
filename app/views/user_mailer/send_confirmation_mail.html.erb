@@ -1,0 +1,11 @@
+<p>Hello,</p>
+<p>Thanks for your subscription <%= @user.name %> ! :D</p>
+<br>
+
+<p>Please click <a href="<%= confirm_user_url(id: @user.id,
+  token: @user.confirmation_token) %>">here</a> to confirm your email.</p>
+<br>
+
+
+<p>Have a nice day,</p>
+<p>the Hexaworking Team !</p>
