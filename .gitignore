@@ -12,8 +12,14 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+*.swp
+.DS_Store
+public/assets
 
 /node_modules
 /yarn-error.log
 
 .byebug_history
+
+# Ignore application configuration
+/config/application.yml
