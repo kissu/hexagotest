@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_one :request
+  has_one :request, dependent: :destroy
 
   has_secure_password
   has_secure_token :confirmation_token
