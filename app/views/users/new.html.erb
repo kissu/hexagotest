@@ -1,0 +1,21 @@
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-sm-6 .offset-sm-3">
+      <p>Welcome to the French Coworking Space !</p>
+      <p>Please create an account. :)</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 .offset-sm-3">
+      <%= simple_form_for @user do |f| %>
+        <%= f.input :name %>
+        <%= f.input :email %>
+        <%= f.input :password %>
+        <%= f.input :phone_number %>
+        <%= f.input :biography %>
+        <%= f.button :submit, class: 'btn btn-info' %>
+      <% end %>
+    </div>
+  </div>
+</div>
