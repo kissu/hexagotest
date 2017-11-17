@@ -12,8 +12,13 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+*.swp
+.DS_Store
+public/assets
 
 /node_modules
 /yarn-error.log
 
+/config/application.yml
+Gemfile
 .byebug_history
