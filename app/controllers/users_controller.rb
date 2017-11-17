@@ -6,11 +6,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.valid?
-      @user.save
+    if @user.save
       redirect_to requests_thanks_path
       UserMailer.send_confirmation_mail(@user).deliver_now
-      flash[:notice] = "Mail sent"
+      Request.create!(user: @user, status: 'unconfirmed')
     else
       render :new
     end
@@ -19,13 +18,13 @@ class UsersController < ApplicationController
   def confirm
     @user = User.find(params[:id])
     if @user.confirmation_token == params[:token]
-      # @user.update_attributes(confirmation_token: nil)
       @user.confirmation_token = nil
       @user.save(validate: false)
-      puts 'token ok'
+      @user.request.update(status: 'confirmed')
       redirect_to requests_thanks_path
+      flash[:notice] = "Your account is now verified"
     else
-      puts 'wrong token :('
+      flash[:alert] = "Mail token is invalid"
       redirect_to root_path
     end
   end
