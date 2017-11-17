@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_one :request
 
   has_secure_password
+  has_secure_token :confirmation_token
 
   validates :name, presence: true
   validates :email, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ },
