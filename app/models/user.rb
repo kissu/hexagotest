@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_one :request, dependent: :destroy
 
+  validates :wait_order, :numericality => { :greater_than_or_equal_to => 0 }
+
   has_secure_password
   has_secure_token :confirmation_token
 

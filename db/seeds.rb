@@ -9,10 +9,13 @@ puts 'All stuff destroyed.'
   biography: Faker::Lorem.sentence(5, true, 10))
 end
 
+User.last(2).first.update(wait_order: 1)
+User.last.update(wait_order: 2)
+
 Request.create!(user_id: 1, status: 0)
 Request.create!(user_id: 2, status: 0)
 Request.create!(user_id: 3, status: 0)
-Request.create!(user_id: 4, status: 10)
-Request.create!(user_id: 5, status: 10)
+Request.create!(user_id: 9, status: 10)
+Request.create!(user_id: 10, status: 10)
 
 puts 'Seed generated !'

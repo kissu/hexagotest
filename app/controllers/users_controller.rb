@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   def confirm
     @user = User.find(params[:id])
     if @user.confirmation_token == params[:token]
-      @user.confirmation_token = nil
+      @user.update_attributes(confirmation_token: nil,
+                              wait_order: define_new_wait_order)
       @user.save(validate: false)
       @user.request.update(status: 'confirmed')
       redirect_to requests_thanks_path
@@ -33,6 +34,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :biography, :phone_number)
+  end
+
+  def define_new_wait_order
+    User.maximum('wait_order') + 1
   end
 
 end
