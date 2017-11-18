@@ -19,6 +19,7 @@ gem 'simple_form'
 gem 'turbolinks', '~> 5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'mailjet'
+gem 'faker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
