@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20171117101341) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "confirmation_token"
-    t.integer "wait_order", default: 0
+    t.integer "wait_order"
   end
 
   add_foreign_key "requests", "users"

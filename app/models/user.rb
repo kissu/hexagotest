@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_one :request, dependent: :destroy
 
-  validates :wait_order, :numericality => { :greater_than_or_equal_to => 0 }
+  validates :wait_order, numericality: { greater_than_or_equal_to: 0 },
+    :allow_nil => true
 
   has_secure_password
   has_secure_token :confirmation_token
@@ -18,4 +19,5 @@ class User < ApplicationRecord
     num.gsub!(/[^\d\+]/, '')
     super(num)
   end
+
 end
