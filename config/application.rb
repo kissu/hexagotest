@@ -27,5 +27,11 @@ module Hexagotest
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.time_zone = 'Paris'
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end
