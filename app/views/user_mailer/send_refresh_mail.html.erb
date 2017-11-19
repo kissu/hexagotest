@@ -1,0 +1,14 @@
+<p>Hello <%= @user.name %> :D</p>
+<p>I can see that you're on our waitlist for a while, thanks for that !</p>
+<p>Btw, you're currently #<%= @user.wait_order %> on it.</p>
+<br>
+
+<p>Could you please click on this <a href="<%= refresh_user_url(id: @user.id,
+    token: @user.confirmation_token) %>">link</a> to confirm that you're still
+    interested of being part of our Coworking ?
+</p>
+<p>Thank you in advance !</p>
+<br>
+
+<p>Have a nice day,</p>
+<p>the Hexaworking Team !</p>

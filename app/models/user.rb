@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_one :request, dependent: :destroy
+  has_one :request
+  after_create :set_default_request
 
   validates :wait_order, numericality: { greater_than_or_equal_to: 0 },
     :allow_nil => true
@@ -15,9 +16,23 @@ class User < ApplicationRecord
   validates :biography, presence: true, length: { minimum: 10,
     message: 'is a bit too short, tell us more about you !' }
 
+ # ------------------------------------------------------
+
   def phone_number=(num)
     num.gsub!(/[^\d\+]/, '')
     super(num)
+  end
+
+  def set_default_request
+    Request.create!(user: self, status: 'unconfirmed')
+  end
+
+  def nillify_wait_order
+    update(wait_order: nil)
+  end
+
+  def nillify_confirmation_token
+    update(confirmation_token: nil)
   end
 
 end

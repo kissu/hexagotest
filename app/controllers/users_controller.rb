@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:confirm]
+  before_action :set_user, only: [:confirm, :refresh]
 
   def new
     @user = User.new
@@ -10,7 +10,6 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to requests_thanks_path
       UserMailer.send_confirmation_mail(@user).deliver_now
-      Request.create!(user: @user, status: 'unconfirmed')
     else
       render :new
     end
@@ -28,11 +27,18 @@ class UsersController < ApplicationController
   end
 
   def refresh
-    # Request.where("updated_at > ? and status = ?", 30.minutes.ago, 10)
-    # BCrypt::Password.create(SecureRandom.base64 30)
+    @user.nillify_confirmation_token
+    @user.save
+    @user.request.update(status: 'confirmed')
+    redirect_to requests_thanks_path
+    flash[:notice] = "Thanks for your refresh !"
   end
 
   private
+
+  def define_next_wait_order
+    User.maximum('wait_order') + 1
+  end
 
   def set_user
     @user = User.find(params[:id])
@@ -43,13 +49,10 @@ class UsersController < ApplicationController
       :phone_number)
   end
 
-  def define_new_wait_order
-    User.maximum('wait_order') + 1
-  end
-
   def add_new_user_to_waitlist(user)
     user.update_attributes(confirmation_token: nil,
-                           wait_order: define_new_wait_order)
+                           wait_order: define_next_wait_order)
+    # maybe change for `update_attributes!` ??
     user.save
     user.request.update(status: 'confirmed')
   end
