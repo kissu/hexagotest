@@ -27,6 +27,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def refresh
+    # Request.where("updated_at > ? and status = ?", 30.minutes.ago, 10)
+    # BCrypt::Password.create(SecureRandom.base64 30)
+  end
+
   private
 
   def set_user

@@ -30,5 +30,7 @@ module Hexagotest
 
     config.time_zone = 'Paris'
     config.active_record.default_timezone = :local
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

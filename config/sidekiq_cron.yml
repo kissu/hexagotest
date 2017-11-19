@@ -1,0 +1,13 @@
+default: &defaults
+  refresh mail waitlist:
+    cron: "*/10 * * * *"
+    class: "RefreshMailWaitlistJob"
+
+development:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults
