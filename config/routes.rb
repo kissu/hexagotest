@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   require 'sidekiq/cron/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  root 'users#new'
+  root 'pages#home'
 
   resources :users, only: [:new, :create] do
     member do
