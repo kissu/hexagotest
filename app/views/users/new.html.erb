@@ -1,13 +1,7 @@
-<div class="container wrapper">
-  <div class="row">
-    <div class="col-sm-6 .offset-sm-3">
-      <p>Welcome to the French Hexaworking Space !</p>
-      <p>Please create an account. :)</p>
-    </div>
-  </div>
+<div class="centered" style="background-image: linear-gradient(-225deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.4) 50%), url('https://images.unsplash.com/1/macbook-air-all-faded-and-stuff.jpg?auto=format&fit=crop&w=1350&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D'); background-size: cover">
 
   <div class="row">
-    <div class="col-sm-6 .offset-sm-3">
+    <div class="col-sm">
       <%= simple_form_for @user do |f| %>
         <%= f.input :name %>
         <%= f.input :email %>
@@ -18,4 +12,5 @@
       <% end %>
     </div>
   </div>
+
 </div>
