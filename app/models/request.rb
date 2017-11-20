@@ -46,7 +46,7 @@ class Request < ApplicationRecord
     u = User.where(wait_order: order_to_accept)
     unless u.first.nil?
       u.update(wait_order: 0)
-      update(status: 20)
+      u.first.request.update(status: 20)
     end
   end
 
