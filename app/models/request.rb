@@ -1,6 +1,6 @@
 class Request < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  before_destroy :notify_expired_before_destroy
+  before_destroy :notify_user_expired
 
   enum status: { unconfirmed: 0, confirmed: 10, accepted: 20, need_refresh: 25,
     expired: 30 }
@@ -12,32 +12,23 @@ class Request < ApplicationRecord
   scope :expired,     -> { where(status: 30) }
 
   def self.accept!
-    # more DRY but need to instanciate req to be able to use other methods...
     req = Request.new
     req.accept_new_user
     req.decrement_next_waiters
   end
 
   def self.check_for_updates
-    # need to check if no_token ???
-    if update_to_refresh > 0
-      need_refresh.find_each { |req| req.notify_user_refresh }
-      puts 'mail refreshed'
-    end
-
-    if update_to_expired > 0
-      expired.find_each { |req| req.notify_expired_before_destroy }
-      puts 'mail expired'
-    end
+    need_refresh.find_each {|r| r.notify_user_refresh } if update_to_refresh > 0
+    expired.find_each { |r| r.notify_user_expired } if update_to_expired > 0
   end
 
-  def self.update_to_refresh
-    updated = Request.where("updated_at < ? and status = ?", 30.seconds.ago, 10)
+  def self.update_to_refresh           # real value should be: 3.months.ago
+    updated = Request.where("updated_at < ? and status = ?", 5.minutes.ago, 10)
                      .update_all(status: 25, updated_at: DateTime.now)
   end
 
-  def self.update_to_expired
-    updated = Request.where("updated_at < ? and status = ?", 30.seconds.ago, 25)
+  def self.update_to_expired             # real value should be: 7.days.ago
+    updated = Request.where("updated_at < ? and status = ?", 5.minutes.ago, 25)
                      .update_all(status: 30, updated_at: DateTime.now)
   end
 
@@ -66,8 +57,6 @@ class Request < ApplicationRecord
     end
   end
 
-  # try if deliver_later is working with disekiq with *\2 cron setting
-
   def notify_user_refresh
     refresh_token = BCrypt::Password.create(SecureRandom.base64 30)
     user.update(confirmation_token: refresh_token)
@@ -75,7 +64,7 @@ class Request < ApplicationRecord
     puts "Refresh mail sent to #{user.name} !"
   end
 
-  def notify_expired_before_destroy
+  def notify_user_expired
     decrement_next_waiters(user.wait_order)
     user.nillify_wait_order
     user.nillify_confirmation_token

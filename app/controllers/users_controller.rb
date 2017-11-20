@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      puts "user >>> #{@user.id} #{@user.email}"
       UserMailer.send_confirmation_mail(@user).deliver_later
       redirect_to requests_thanks_path
     else

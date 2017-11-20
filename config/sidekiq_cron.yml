@@ -1,7 +1,8 @@
 default: &defaults
-  refresh mail waitlist:
+  check for status changes:
     cron: "* * * * *"
-    class: "RefreshMailWaitlistJob"
+    # real value should be (each day @2am) >>> cron: "0 2 * * *"
+    class: "CheckForStatusChangesJob"
 development:
   <<: *defaults
 
@@ -10,3 +11,6 @@ staging:
 
 production:
   <<: *defaults
+
+# don't forget to `bundle exec rake sidekiq_cron:load` in the console to refresh
+# this config file | heroku: paste same bundle exec line in the Heroku Scheduler
