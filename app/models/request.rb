@@ -32,12 +32,12 @@ class Request < ApplicationRecord
   end
 
   def self.update_to_refresh
-    updated = Request.where("updated_at < ? and status = ?", 10.minutes.ago, 10)
+    updated = Request.where("updated_at < ? and status = ?", 30.seconds.ago, 10)
                      .update_all(status: 25, updated_at: DateTime.now)
   end
 
   def self.update_to_expired
-    updated = Request.where("updated_at < ? and status = ?", 10.minutes.ago, 25)
+    updated = Request.where("updated_at < ? and status = ?", 30.seconds.ago, 25)
                      .update_all(status: 30, updated_at: DateTime.now)
   end
 
@@ -71,7 +71,7 @@ class Request < ApplicationRecord
   def notify_user_refresh
     refresh_token = BCrypt::Password.create(SecureRandom.base64 30)
     user.update(confirmation_token: refresh_token)
-    UserMailer.send_refresh_mail(user).deliver_now
+    UserMailer.send_refresh_mail(user).deliver_later
     puts "Refresh mail sent to #{user.name} !"
   end
 
@@ -79,7 +79,7 @@ class Request < ApplicationRecord
     decrement_next_waiters(user.wait_order)
     user.nillify_wait_order
     user.nillify_confirmation_token
-    UserMailer.send_expired_mail(user).deliver_now
+    UserMailer.send_expired_mail(user).deliver_later
     puts "#{user.name}'s account has expired, wait_order = nil !"
   end
 

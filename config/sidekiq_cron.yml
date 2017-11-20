@@ -2,7 +2,6 @@ default: &defaults
   refresh mail waitlist:
     cron: "* * * * *"
     class: "RefreshMailWaitlistJob"
-
 development:
   <<: *defaults
 

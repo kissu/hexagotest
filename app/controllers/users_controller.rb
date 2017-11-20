@@ -8,8 +8,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      puts "user >>> #{@user.id} #{@user.email}"
+      UserMailer.send_confirmation_mail(@user).deliver_later
       redirect_to requests_thanks_path
-      UserMailer.send_confirmation_mail(@user).deliver_now
     else
       render :new
     end
@@ -27,11 +28,16 @@ class UsersController < ApplicationController
   end
 
   def refresh
-    @user.nillify_confirmation_token
-    @user.save
-    @user.request.update(status: 'confirmed')
-    redirect_to requests_thanks_path
-    flash[:notice] = "Thanks for your refresh !"
+    if @user.confirmation_token == params[:token]
+      @user.nillify_confirmation_token
+      @user.save
+      @user.request.update(status: 'confirmed')
+      redirect_to requests_thanks_path
+      flash[:notice] = "Thanks for your refresh ! :)"
+    else
+      flash[:alert] = "Incorect token.."
+      redirect_to root_path
+    end
   end
 
   private

@@ -31,6 +31,7 @@ module Hexagotest
     config.time_zone = 'Paris'
     config.active_record.default_timezone = :local
     config.active_record.time_zone_aware_attributes = false
+    # to setup timezone on heroku >> heroku config:add TZ="Europe/Paris"
 
     config.active_job.queue_adapter = :sidekiq
   end
