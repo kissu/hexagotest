@@ -14,6 +14,7 @@
   <body>
     <%= render 'shared/navbar' %>
     <%= render 'shared/flashes' %>
+    <%= debug session[:auth] %>
     <%= yield %>
   </body>
 </html>

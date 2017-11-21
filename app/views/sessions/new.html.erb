@@ -2,15 +2,13 @@
 
   <div class="row">
     <div class="col-sm">
-      <%= simple_form_for @user do |f| %>
-        <%= f.input :name %>
+      <%= simple_form_for @user, url: login_path do |f| %>
         <%= f.input :email %>
         <%= f.input :password, required: true %>
-        <%= f.input :phone_number %>
-        <%= f.input :biography %>
-        <%= f.submit 'Sign up', class: 'btn btn-info' %>
+        <%= f.submit 'Login', class: 'btn btn-info' %>
       <% end %>
     </div>
   </div>
+
 
 </div>

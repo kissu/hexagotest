@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   root 'pages#home'
+  get 'dashboard', to: 'requests#index'
+
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
   resources :users, only: [:new, :create] do
     member do
@@ -14,6 +19,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'requests/thanks', to: 'requests#thanks'
   resources :requests, only: [:index, :show, :edit, :update]
 end

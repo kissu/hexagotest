@@ -1,6 +1,8 @@
 class RequestsController < ApplicationController
 
-  def thanks # temporary stuff until I make the mailing done
+  def index
+    @requests = Request.confirmed
+    @user = current_user
   end
 
 end

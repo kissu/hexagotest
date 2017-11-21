@@ -23,12 +23,12 @@ class Request < ApplicationRecord
   end
 
   def self.update_to_refresh           # real value should be: 3.months.ago
-    updated = Request.where("updated_at < ? and status = ?", 5.minutes.ago, 10)
+    updated = Request.where("updated_at < ? and status = ?", 55555.minutes.ago, 10)
                      .update_all(status: 25, updated_at: DateTime.now)
   end
 
   def self.update_to_expired             # real value should be: 7.days.ago
-    updated = Request.where("updated_at < ? and status = ?", 5.minutes.ago, 25)
+    updated = Request.where("updated_at < ? and status = ?", 55555.minutes.ago, 25)
                      .update_all(status: 30, updated_at: DateTime.now)
   end
 

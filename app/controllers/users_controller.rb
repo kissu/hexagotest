@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:confirm, :refresh]
+  skip_before_action :only_signed_in, only: [:new, :create, :confirm]
 
   def new
     @user = User.new
@@ -9,8 +10,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       UserMailer.send_confirmation_mail(@user).deliver_later
-      redirect_to requests_thanks_path
+      flash[:notice] = "Please confirm received email before your login"
+      redirect_to login_path
     else
+      flash[:alert] = "Some fields are not correct, please correct them"
       render :new
     end
   end
@@ -18,7 +21,8 @@ class UsersController < ApplicationController
   def confirm
     if @user.confirmation_token == params[:token]
       add_new_user_to_waitlist(@user)
-      redirect_to requests_thanks_path
+      redirect_to dashboard_path
+      session[:auth] = { id: @user.id }
       flash[:notice] = "Your account is now verified"
     else
       flash[:alert] = "Mail token is invalid"
@@ -31,7 +35,7 @@ class UsersController < ApplicationController
       @user.nillify_confirmation_token
       @user.save
       @user.request.update(status: 'confirmed')
-      redirect_to requests_thanks_path
+      redirect_to dashboard_path
       flash[:notice] = "Thanks for your refresh ! :)"
     else
       flash[:alert] = "Incorect token.."

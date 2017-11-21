@@ -16,4 +16,6 @@ User.last(3).first.update(wait_order: 3)
 User.last(2).first.update(wait_order: 4)
 User.last.update(wait_order: 5)
 
+Request.where("id > ?", 4).update_all(status: 10)
+
 puts 'Seed generated !'
