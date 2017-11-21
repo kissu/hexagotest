@@ -23,12 +23,12 @@ class Request < ApplicationRecord
   end
 
   def self.update_to_refresh           # real value should be: 3.months.ago
-    updated = Request.where("updated_at < ? and status = ?", 5.minutes.ago, 10)
+    updated = Request.where("updated_at < ? and status = ?", 55555.minutes.ago, 10)
                      .update_all(status: 25, updated_at: DateTime.now)
   end
 
   def self.update_to_expired             # real value should be: 7.days.ago
-    updated = Request.where("updated_at < ? and status = ?", 5.minutes.ago, 25)
+    updated = Request.where("updated_at < ? and status = ?", 55555.minutes.ago, 25)
                      .update_all(status: 30, updated_at: DateTime.now)
   end
 
@@ -46,7 +46,7 @@ class Request < ApplicationRecord
     u = User.where(wait_order: order_to_accept)
     unless u.first.nil?
       u.update(wait_order: 0)
-      update(status: 20)
+      u.first.request.update(status: 20)
     end
   end
 
@@ -70,6 +70,12 @@ class Request < ApplicationRecord
     user.nillify_confirmation_token
     UserMailer.send_expired_mail(user).deliver_later
     puts "#{user.name}'s account has expired, wait_order = nil !"
+  end
+
+  def remaining_time_before_expiration
+    limit = Time.now.strftime("%d").to_i + 7
+    last_update = updated_at.strftime("%d").to_i
+    limit - last_update
   end
 
 end

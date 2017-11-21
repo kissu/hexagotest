@@ -1,7 +1,12 @@
 .alert {
-  margin: 0;
+  position: fixed;
+  width: 40%;
+  z-index: 99999;
   text-align: center;
   color: white;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }
 .alert-info {
   background: $green;

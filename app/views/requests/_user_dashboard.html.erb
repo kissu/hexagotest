@@ -1,0 +1,21 @@
+<h4>Your profile</h4>
+<br>
+
+<p>Hi <%= user.name %> !</p>
+
+<% if status == 'unconfirmed' %>
+  <p>What are you even doing here ?? <br>Your adress is not confirmed...</p>
+<% elsif status == 'confirmed' %>
+  <p>you're currently on the waiting list, <br>
+  your order is #<%= user.wait_order %></p>
+<% elsif status == 'accepted' %>
+  <p>Congratz, you can join us in the coworking ! :)</p>
+<% elsif status == 'need_refresh' %>
+  <p>please click on the link in the mail we have sent to you <br>
+    you have <%= req.remaining_time_before_expiration %> days left.</p>
+<% else %>
+  <p>your account has expired... <br>
+  but don't worry, you can refresh it by clicking the button below !</p>
+  <%= link_to 'Refresh', refresh_user_url(id: @user.id,
+    token: @user.confirmation_token), class: 'btn btn-info' %>
+<% end %>
