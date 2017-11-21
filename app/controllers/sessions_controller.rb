@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
-
   skip_before_action :only_signed_in, only: [:new, :create]
+  before_action :only_signed_out, only: [:new, :create]
 
   def new
     @user = User.new
@@ -9,8 +9,6 @@ class SessionsController < ApplicationController
   def create
     user_params = params.require(:user)
     @user = User.where(email: user_params[:email]).first
-    # @user = User.where(email: user_params[:email]).first.request.confirmed?
-    puts "user params >>> #{user_params}"
     if @user && @user.authenticate(user_params[:password])
       if @user.request.confirmed?
         session[:auth] = @user.id
@@ -24,7 +22,6 @@ class SessionsController < ApplicationController
       flash[:alert] = "Wrong credentials... :)"
       redirect_to login_path
     end
-    # need test the password & status: confirmed
   end
 
   def destroy

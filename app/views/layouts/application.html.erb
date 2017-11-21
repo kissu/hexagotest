@@ -14,7 +14,8 @@
   <body>
     <%= render 'shared/navbar' %>
     <%= render 'shared/flashes' %>
-    <%= debug session[:auth] %>
+    <%= 'user available ?' %>
+    <%= debug current_user.present? %>
     <%= yield %>
   </body>
 </html>
