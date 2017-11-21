@@ -72,4 +72,10 @@ class Request < ApplicationRecord
     puts "#{user.name}'s account has expired, wait_order = nil !"
   end
 
+  def remaining_time_before_expiration
+    limit = Time.now.strftime("%d").to_i + 7
+    last_update = updated_at.strftime("%d").to_i
+    limit - last_update
+  end
+
 end

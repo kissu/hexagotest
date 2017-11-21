@@ -2,9 +2,12 @@
   <%= render 'shared/navbar' %>
 
   <div class="panel panel-default">
-  <h3 class="panel-heading">Members on the waiting list</h3>
 
-  <%= render 'waiting_list' %>
-  <%= render 'user_dashboard' %>
+  <% if current_user.admin %>
+    <%= render 'waiting_list' %>
+  <% else %>
+    <%= render partial: 'user_dashboard',
+      locals: { status: @user.request.status, user: @user, req: @user.request } %>
+  <% end %>
 
 </div>

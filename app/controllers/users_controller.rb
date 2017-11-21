@@ -34,6 +34,7 @@ class UsersController < ApplicationController
   def refresh
     if @user.confirmation_token == params[:token]
       @user.nillify_confirmation_token
+      @user.wait_order = define_next_wait_order
       @user.save
       @user.request.update(status: 'confirmed')
       redirect_to dashboard_path
