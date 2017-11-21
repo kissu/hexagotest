@@ -12,9 +12,14 @@ class SessionsController < ApplicationController
     # @user = User.where(email: user_params[:email]).first.request.confirmed?
     puts "user params >>> #{user_params}"
     if @user && @user.authenticate(user_params[:password])
-      session[:auth] = @user.id
-      redirect_to dashboard_path
-      flash[:notice] = "You are now connected !"
+      if @user.request.confirmed?
+        session[:auth] = @user.id
+        redirect_to dashboard_path
+        flash[:notice] = "You are now connected !"
+      else
+        flash[:alert] = "Please confirm your email first please"
+        redirect_to login_path
+      end
     else
       flash[:alert] = "Wrong credentials... :)"
       redirect_to login_path
