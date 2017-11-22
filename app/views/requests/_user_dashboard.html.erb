@@ -12,7 +12,8 @@
   <p>Congratz, you can join us in the coworking ! :)</p>
 <% elsif status == 'need_refresh' %>
   <p>please click on the link in the mail we have sent to you <br>
-    you have <%= req.remaining_time_before_expiration %> days left.</p>
+    you have <%= req.remaining_time_before_expiration %>
+    <%= "day".pluralize(req.remaining_time_before_expiration) %> left.</p>
 <% else %>
   <p>your account has expired... <br>
   but don't worry, you can refresh it by clicking the button below !</p>

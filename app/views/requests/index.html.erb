@@ -3,16 +3,10 @@
 
   <div class="panel panel-default">
 
-  <%# unless current_user.nil? %>
-    <% if current_user.admin %>
-      <%= render 'waiting_list' %>
-    <% else %>
-      <%= render partial: 'user_dashboard',
-        locals: { status: @user.request.status, user: @user, req: @user.request } %>
-    <% end %>
-  <%# end %>
-
-<%= current_user.name %>
-<%= debug session[:auth]["id".to_i] %>
-
+  <% if current_user.admin %>
+    <%= render 'waiting_list' %>
+  <% else %>
+    <%= render partial: 'user_dashboard',
+      locals: { status: @user.request.status, user: @user, req: @user.request } %>
+  <% end %>
 </div>
