@@ -25,7 +25,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.destroy
+    reset_session
+    session[:auth] = nil
     redirect_to root_path
     flash[:notice] = "You're now disconnected"
   end
