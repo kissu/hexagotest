@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    return nil if !session[:auth] || !session[:auth]
+    return nil if !session[:auth] || !session[:auth]["id".to_i]
     return @user if @user
     @user = User.find_by_id(session[:auth])
   end

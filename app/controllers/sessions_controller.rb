@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     user_params = params.require(:user)
     @user = User.where(email: user_params[:email]).first
     if @user && @user.authenticate(user_params[:password])
-      if @user.request.confirmed?
+      unless @user.request.unconfirmed?
         session[:auth] = @user.id
         redirect_to dashboard_path
         flash[:notice] = "You are now connected !"

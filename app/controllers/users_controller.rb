@@ -22,8 +22,8 @@ class UsersController < ApplicationController
   def confirm
     if @user.confirmation_token == params[:token]
       add_new_user_to_waitlist(@user)
-      redirect_to dashboard_path
       session[:auth] = { id: @user.id }
+      redirect_to dashboard_path
       flash[:notice] = "Your account is now verified"
     else
       flash[:alert] = "Mail token is invalid"
