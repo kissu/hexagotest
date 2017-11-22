@@ -5,7 +5,7 @@
     <h1>Hexaworking</h1>
     <p class="lead">Welcome to our cool new coworking</p>
     <% unless current_user %>
-      <%= link_to 'Sign-up', new_user_path, class: 'btn btn-info' %>
+      <%= link_to 'Login', login_path, class: 'btn btn-info' %>
     <% else %>
       <%= link_to 'Go to dashboard', dashboard_path, class: 'btn btn-info' %>
     <% end %>
